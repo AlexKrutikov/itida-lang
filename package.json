@@ -1,7 +1,7 @@
 {
   "name": "itida-lang",
   "displayName": "Itida Lang",
-  "description": "Syntax highlightning for Itida lang",
+  "description": "Syntax highlighting for Itida lang",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.82.0"
@@ -10,16 +10,25 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [{
-      "id": "itida",
-      "aliases": ["itida", "itida"],
-      "extensions": [".it"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "itida",
-      "scopeName": "source.itida",
-      "path": "./syntaxes/itida.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "itida",
+        "aliases": [
+          "itida",
+          "itida"
+        ],
+        "extensions": [
+          ".itd"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "itida",
+        "scopeName": "source.itida",
+        "path": "./syntaxes/itida.tmLanguage.json"
+      }
+    ]
   }
 }
