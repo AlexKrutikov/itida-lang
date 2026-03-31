@@ -1,32 +1,279 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "itida",
+	"scopeName": "source.itida",
 	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
+		{ "include": "#comments" },
+		{ "include": "#strings" },
+		{ "include": "#date-literal" },
+		{ "include": "#hex-number" },
+		{ "include": "#float-number" },
+		{ "include": "#integer-number" },
+		{ "include": "#system-constants" },
+		{ "include": "#concepts" },
+		{ "include": "#function-definition" },
+		{ "include": "#control-keywords" },
+		{ "include": "#declaration-keywords" },
+		{ "include": "#special-keywords" },
+		{ "include": "#logical-operators" },
+		{ "include": "#boolean-constants" },
+		{ "include": "#sql-keywords" },
+		{ "include": "#sql-types" },
+		{ "include": "#builtin-functions-string" },
+		{ "include": "#builtin-functions-date" },
+		{ "include": "#builtin-functions-math" },
+		{ "include": "#builtin-functions-logic" },
+		{ "include": "#builtin-functions-data" },
+		{ "include": "#builtin-functions-context" },
+		{ "include": "#builtin-functions-file" },
+		{ "include": "#builtin-functions-ui" },
+		{ "include": "#builtin-functions-other" },
+		{ "include": "#function-call" },
+		{ "include": "#compound-operators" },
+		{ "include": "#operators" },
+		{ "include": "#punctuation" }
 	],
 	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.itida",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.itida",
-			"begin": "\"",
-			"end": "\"",
+		"comments": {
 			"patterns": [
 				{
-					"name": "constant.character.escape.itida",
-					"match": "\\\\."
+					"name": "comment.line.double-slash.itida",
+					"match": "//.*$"
+				},
+				{
+					"name": "comment.block.itida",
+					"begin": "/\\*",
+					"end": "\\*/"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.itida",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.itida",
+							"match": "\"\""
+						}
+					]
+				},
+				{
+					"name": "string.quoted.single.itida",
+					"begin": "'",
+					"end": "'",
+					"patterns": [
+						{
+							"name": "constant.character.escape.itida",
+							"match": "''"
+						}
+					]
+				}
+			]
+		},
+		"date-literal": {
+			"name": "constant.other.date.itida",
+			"match": "\\{\\s*\\d{1,4}[./\\-]\\d{1,2}[./\\-]\\d{1,4}(\\s+\\d{1,2}:\\d{2}(:\\d{2})?)?\\s*\\}"
+		},
+		"hex-number": {
+			"name": "constant.numeric.hex.itida",
+			"match": "(?i)\\b0x[0-9a-f]+\\b"
+		},
+		"float-number": {
+			"name": "constant.numeric.float.itida",
+			"match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b|\\b\\d+[eE][+-]?\\d+\\b|\\.\\d+([eE][+-]?\\d+)?\\b"
+		},
+		"integer-number": {
+			"name": "constant.numeric.integer.itida",
+			"match": "\\b\\d+\\b"
+		},
+		"system-constants": {
+			"name": "constant.other.system.itida",
+			"match": "\\b_[а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z0-9_]*\\b"
+		},
+		"concepts": {
+			"name": "variable.other.concept.itida",
+			"match": "@[а-яА-ЯёЁa-zA-Z_@][а-яА-ЯёЁa-zA-Z0-9_]*"
+		},
+		"function-definition": {
+			"match": "(?i)\\b(FUNCTION|ФУНКЦИЯ)(?:\\s+(LOCAL|ЛОКАЛЬНАЯ))?\\s+([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)\\s*\\(",
+			"captures": {
+				"1": { "name": "storage.type.function.itida" },
+				"2": { "name": "storage.modifier.itida" },
+				"3": { "name": "entity.name.function.itida" }
+			}
+		},
+		"control-keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.itida",
+					"match": "(?i)\\b(IF|ELSE|WHILE|BREAK|CONTINUE|RETURN|TRY|CATCH)\\b"
+				},
+				{
+					"name": "keyword.control.block.itida",
+					"match": "(?i)\\b(BEGIN|END)\\b"
+				}
+			]
+		},
+		"declaration-keywords": {
+			"patterns": [
+				{
+					"name": "storage.type.itida",
+					"match": "(?i)\\b(FUNCTION|ФУНКЦИЯ)\\b"
+				},
+				{
+					"name": "storage.modifier.itida",
+					"match": "(?i)\\b(PUBLIC|LOCAL|ЛОКАЛЬНАЯ)\\b"
+				},
+				{
+					"name": "storage.type.special.itida",
+					"match": "(?i)\\b(CONCEPT|ПОНЯТИЕ|CONSTANT|КОНСТАНТА|OBJECT|ОБЪЕКТ|SQL|SQLAGGREGATE|SQLERROR)\\b"
+				}
+			]
+		},
+		"special-keywords": {
+			"name": "keyword.other.itida",
+			"match": "(?i)\\b(ДАТАКОНСТАНТ|CONSTANTSDATE)\\b"
+		},
+		"logical-operators": {
+			"name": "keyword.operator.logical.itida",
+			"match": "(?i)\\b(AND|OR|XOR)\\b"
+		},
+		"boolean-constants": {
+			"patterns": [
+				{
+					"name": "constant.language.boolean.true.itida",
+					"match": "(?i)\\b(true|ИСТИНА)\\b"
+				},
+				{
+					"name": "constant.language.boolean.false.itida",
+					"match": "(?i)\\b(false|ЛОЖЬ)\\b"
+				}
+			]
+		},
+		"sql-keywords": {
+			"patterns": [
+				{
+					"name": "keyword.other.DML.sql.itida",
+					"match": "(?i)\\b(SELECT|FROM|WHERE|INSERT|INTO|UPDATE|DELETE|SET|VALUES|OUTPUT|TOP|DISTINCT|HAVING|UNION|ALL|EXISTS|BETWEEN|LIKE|IN|AS|ON|CASE|WHEN|THEN|ELSE|END|CAST|CONVERT|COALESCE|ISNULL|NULLIF|NULL)\\b"
+				},
+				{
+					"name": "keyword.other.DDL.sql.itida",
+					"match": "(?i)\\b(CREATE|ALTER|DROP|TABLE|INDEX|VIEW|TRIGGER|CONSTRAINT|PRIMARY|KEY|FOREIGN|REFERENCES|UNIQUE|CHECK|DEFAULT|IDENTITY|CLUSTERED|NONCLUSTERED)\\b"
+				},
+				{
+					"name": "keyword.other.sql.itida",
+					"match": "(?i)\\b(JOIN|LEFT|RIGHT|INNER|OUTER|CROSS|FULL|ORDER|BY|GROUP|ASC|DESC|FETCH|NEXT|ROWS|ONLY|FIRST|LAST|OFFSET)\\b"
+				},
+				{
+					"name": "keyword.other.sql.cursor.itida",
+					"match": "(?i)\\b(DECLARE|CURSOR|OPEN|CLOSE|DEALLOCATE|FORWARD_ONLY|SCROLL|INSENSITIVE|READ_ONLY|FOR)\\b"
+				},
+				{
+					"name": "keyword.control.sql.itida",
+					"match": "(?i)\\b(COMMIT|ROLLBACK|TRANSACTION|TRAN|SAVE|SAVEPOINT|EXECUTE|EXEC|GO|PRINT|FMTONLY)\\b"
+				}
+			]
+		},
+		"sql-types": {
+			"name": "storage.type.sql.itida",
+			"match": "(?i)\\b(int|integer|bigint|smallint|tinyint|bit|decimal|numeric|money|smallmoney|float|real|double|precision|char|varchar|nchar|nvarchar|text|ntext|binary|varbinary|image|datetime|datetime2|smalldatetime|date|time|datetimeoffset|timestamp|uniqueidentifier|xml|sql_variant|cursor|table|hierarchyid)\\b"
+		},
+		"builtin-functions-string": {
+			"name": "support.function.string.itida",
+			"match": "(?i)\\b(СЖАТЬПРОБЕЛЫ|ALLTRIM|ПОЗИЦИЯ|AT|ПОЗИЦИЯР|ATC|СТРОКАИЗДАТЫ|DTOC|ЛЕВСИМВ|LEFT|ДЛИНА|LEN|СТРОЧНЫЕ|LOWER|СЖАТЬПРОБЕЛЫЛЕВ|LTRIM|ДОБАВИТЬПРОБЕЛЫЛЕВ|PADL|ДОБАВИТЬПРОБЕЛЫПРАВ|PADR|ОБРАТНЫЙПОИСК|RAT|КОПИРОВАТЬ|REPLICATE|ПРАВСИМВ|RIGHT|СЖАТЬПРОБЕЛЫПРАВ|RTRIM|ПРОБЕЛЫ|SPACE|СИМВОЛПОКОДУ|CHR|КОДСИМВОЛА|ASC|СТРОКА|STR|STDA|STDE|STDF|ЗАМЕНИТЬ|STRTRAN|STRTRANC|ПОДСТРОКА|SUBSTR|СТРОКАИЗВРЕМЕНИ|TTOC|ПРОПИСНЫЕ|UPPER|ПРОЧИТАТЬСТРОКУ|STRINGREAD|ПОКРУЖЕНИЯ|ENVVAR|ПОЛУЧИТЬСЛОВО|GETWORD|ПРОПИСЬ|TRANSLATENUMBER|ПРОПИСЬРУБ|TRANSLATENUMBERRUR|ПЕРЕКОДИРОВАТЬ|TRANSLATE|СТРОКАИЗМАССИВА|ARRAYTOSTRING|МАССИВИЗСТРОКИ|STRINGTOARRAY|ЭЛЕМЕНТ|ITEM|ЗАШИФРОВАТЬТЕКСТ|ENCRYPTTEXT|РАСШИФРОВАТЬТЕКСТ|DECRYPTTEXT)(?=\\s*\\()"
+		},
+		"builtin-functions-date": {
+			"name": "support.function.date.itida",
+			"match": "(?i)\\b(ДАТАИЗВРЕМЕНИ|TTOD|ИМЯДНЯНЕДЕЛИ|CDOW|ДАТАИЗСТРОКИ|CTOD|ДАТА|DATE|ДАТАВРЕМЯ|DATETIME|ДЕНЬ|DAY|ДЕНЬНЕДЕЛИ|DOW|ДОБАВИТЬДНИ|GODAY|ДОБАВИТЬМЕСЯЦЫ|GOMONTH|ДОБАВИТЬГОДЫ|GOYEAR|РАЗНИЦАДАТ|DATEDIFF|ЧАС|HOUR|МИНУТА|MINUTE|СЕКУНДА|SECOND|МЕСЯЦ|MONTH|ИМЯМЕСЯЦА|MONTHNAME|ВРЕМЯ|TIME|НЕДЕЛЯ|WEEK|ГОД|YEAR|КВАРТАЛ|QUARTER|НАЧАЛОМЕСЯЦА|MONTHFIRSTDATE|КОНЕЦМЕСЯЦА|MONTHLASTDATE)(?=\\s*\\()"
+		},
+		"builtin-functions-math": {
+			"name": "support.function.math.itida",
+			"match": "(?i)\\b(АБСОЛЮТНОЕЗНАЧЕНИЕ|ABS|ЭЛЕМЕНТОВВМАССИВЕ|ACOUNT|ЦЕЛОЕ|INT|ОКРУГЛИТЬ|ROUND|ЗНАК|SIGN|СЛУЧАЙНОЕЧИСЛО|RAND|VAL|МАКС|MAX|МИН|MIN)(?=\\s*\\()"
+		},
+		"builtin-functions-logic": {
+			"name": "support.function.logic.itida",
+			"match": "(?i)\\b(МЕЖДУ|BETWEEN|ПУСТО|EMPTY|ЕСЛИ|IIF|ВСПИСКЕ|INLIST|ТИП|TYPE)(?=\\s*\\()"
+		},
+		"builtin-functions-data": {
+			"name": "support.function.data.itida",
+			"match": "(?i)\\b(ЗАПРОС|QUERY|СФОРМИРОВАТЬ_XML|GETXML|СФОРМИРОВАТЬ_JSON|GETJSON|СФОРМИРОВАТЬ_VJSON|GETVJSON|РАЗОБРАТЬ_VJSON|JSONTOVARS|ДАННЫЕ_JSON|JSONDATA|ПОЛЕ_JSON|JSONFIELD|ЗАГРУЗИТЬДАННЫЕ|LOADDATA|ВЫГРУЗИТЬДАННЫЕ|EXPORTDATA|ДОБАВИТЬСОЕДИНЕНИЕ|ADDCONNECTION|РАЗОРВАТЬСОЕДИНЕНИЕ|BREAKCONNECTION|ВЫБРАТЬСОЕДИНЕНИЕ|SELECTCONNECTION|СОЕДИНЕНИЕ|CONNECTION)(?=\\s*\\()"
+		},
+		"builtin-functions-context": {
+			"name": "support.function.context.itida",
+			"match": "(?i)\\b(ДОБАВИТЬКОНТЕКСТ|ADDCONTEXT|ДОБАВИТЬСТРОКИ|APPEND|КОНЕЦКОНТЕКСТА|ENDOFVIEW|КонецКонтекста|ПЕРЕЙТИ|GO|ПЕРЕЙТИВКОНЕЦ|GOBOTTOM|ПЕРЕЙТИВНАЧАЛО|GOTOP|ПерейтиВНачало|КОЛИЧЕСТВОСТРОК|RECCOUNT|УДАЛИТЬКОНТЕКСТ|REMOVECONTEXT|УдалитьКонтекст|ПРОПУСТИТЬ|Пропустить|SKIP|ВЫБРАТЬКОНТЕКСТ|SELECTCONTEXT|ВыбратьКонтекст|НОМЕРСТРОКИ|RECNO|СОЗДАТЬИНДЕКС|CREATEINDEX|Загрузить)(?=\\s*\\()"
+		},
+		"builtin-functions-file": {
+			"name": "support.function.file.itida",
+			"match": "(?i)\\b(ФайлСоздать|ФайлОткрыть|ФайлЗаписать|ФайлЧтение|ФайлЗакрыть|ФайлУдалить|ФайлКопировать|ФайлПереименовать|ФайлСуществует|УникальноеИмя|СокетСоединить|СокетПередать|СокетПолучить|СокетЗакрыть)(?=\\s*\\()"
+		},
+		"builtin-functions-ui": {
+			"name": "support.function.ui.itida",
+			"match": "(?i)\\b(Сообщить|СистемноеСообщение|ОтправитьСообщение|ОТПРАВИТЬСООБЩЕНИЕ)(?=\\s*\\()"
+		},
+		"builtin-functions-other": {
+			"name": "support.function.other.itida",
+			"match": "(?i)\\b(Вычислить|EVALUATE|EVAL)(?=\\s*\\()"
+		},
+		"function-call": {
+			"match": "([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)\\s*\\(",
+			"captures": {
+				"1": { "name": "entity.name.function.call.itida" }
+			}
+		},
+		"compound-operators": {
+			"name": "keyword.operator.assignment.compound.itida",
+			"match": "\\+=|-=|\\*=|/=|&=|\\|=|\\^="
+		},
+		"operators": {
+			"patterns": [
+				{
+					"name": "keyword.operator.increment-decrement.itida",
+					"match": "\\+\\+|--"
+				},
+				{
+					"name": "keyword.operator.comparison.itida",
+					"match": "==|!=|<>|<=|>=|<|>"
+				},
+				{
+					"name": "keyword.operator.logical.itida",
+					"match": "!"
+				},
+				{
+					"name": "keyword.operator.substring.itida",
+					"match": "\\$"
+				},
+				{
+					"name": "keyword.operator.bitwise.itida",
+					"match": "[&|^]"
+				},
+				{
+					"name": "keyword.operator.assignment.itida",
+					"match": "="
+				},
+				{
+					"name": "keyword.operator.arithmetic.itida",
+					"match": "[+\\-*/%]"
+				}
+			]
+		},
+		"punctuation": {
+			"patterns": [
+				{
+					"name": "punctuation.terminator.statement.itida",
+					"match": ";"
+				},
+				{
+					"name": "punctuation.separator.comma.itida",
+					"match": ","
+				},
+				{
+					"name": "punctuation.accessor.dot.itida",
+					"match": "\\."
 				}
 			]
 		}
-	},
-	"scopeName": "source.itida"
+	}
 }
