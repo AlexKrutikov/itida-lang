@@ -1,6 +1,6 @@
 {
   "name": "itida-language",
-  "displayName": "Itida Language Support",
+  "displayName": "Айтида Language Support",
   "description": "Syntax highlighting and IntelliSense for Itida language",
   "version": "0.1.2",
   "publisher": "itida",
