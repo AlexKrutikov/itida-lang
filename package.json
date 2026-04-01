@@ -2,7 +2,7 @@
   "name": "itida-language",
   "displayName": "Айтида Language Support",
   "description": "Syntax highlighting and IntelliSense for Itida language",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "itida",
   "license": "MIT",
   "repository": {
@@ -206,6 +206,22 @@
             "settings": { "foreground": "#800080", "fontStyle": "bold" }
           },
           {
+            "scope": "support.function.network.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.table.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.xml.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.archive.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
             "scope": "support.function.other.itida",
             "settings": { "foreground": "#800080", "fontStyle": "bold" }
           }
@@ -346,6 +362,22 @@
             },
             {
               "scope": "support.function.ui.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.network.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.table.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.xml.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.archive.itida",
               "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
             },
             {

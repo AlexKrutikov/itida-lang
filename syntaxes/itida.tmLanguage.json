@@ -27,6 +27,10 @@
 		{ "include": "#builtin-functions-data" },
 		{ "include": "#builtin-functions-context" },
 		{ "include": "#builtin-functions-file" },
+		{ "include": "#builtin-functions-network" },
+		{ "include": "#builtin-functions-table" },
+		{ "include": "#builtin-functions-xml" },
+		{ "include": "#builtin-functions-archive" },
 		{ "include": "#builtin-functions-ui" },
 		{ "include": "#builtin-functions-other" },
 		{ "include": "#function-call" },
@@ -242,7 +246,7 @@
 		},
 		"builtin-functions-string": {
 			"name": "support.function.string.itida",
-			"match": "(?i)\\b(СЖАТЬПРОБЕЛЫ|ALLTRIM|ПОЗИЦИЯ|AT|ПОЗИЦИЯР|ATC|СТРОКАИЗДАТЫ|DTOC|ЛЕВСИМВ|LEFT|ДЛИНА|LEN|СТРОЧНЫЕ|LOWER|СЖАТЬПРОБЕЛЫЛЕВ|LTRIM|ДОБАВИТЬПРОБЕЛЫЛЕВ|PADL|ДОБАВИТЬПРОБЕЛЫПРАВ|PADR|ОБРАТНЫЙПОИСК|RAT|КОПИРОВАТЬ|REPLICATE|ПРАВСИМВ|RIGHT|СЖАТЬПРОБЕЛЫПРАВ|RTRIM|ПРОБЕЛЫ|SPACE|СИМВОЛПОКОДУ|CHR|КОДСИМВОЛА|ASC|СТРОКА|STR|STDA|STDE|STDF|ЗАМЕНИТЬ|STRTRAN|STRTRANC|ПОДСТРОКА|SUBSTR|СТРОКАИЗВРЕМЕНИ|TTOC|ПРОПИСНЫЕ|UPPER|ПРОЧИТАТЬСТРОКУ|STRINGREAD|ПОКРУЖЕНИЯ|ENVVAR|ПОЛУЧИТЬСЛОВО|GETWORD|ПРОПИСЬ|TRANSLATENUMBER|ПРОПИСЬРУБ|TRANSLATENUMBERRUR|ПЕРЕКОДИРОВАТЬ|TRANSLATE|СТРОКАИЗМАССИВА|ARRAYTOSTRING|МАССИВИЗСТРОКИ|STRINGTOARRAY|ЭЛЕМЕНТ|ITEM|ЗАШИФРОВАТЬТЕКСТ|ENCRYPTTEXT|РАСШИФРОВАТЬТЕКСТ|DECRYPTTEXT)(?=\\s*\\()"
+			"match": "(?i)\\b(СЖАТЬПРОБЕЛЫ|ALLTRIM|ПОЗИЦИЯ|AT|ПОЗИЦИЯР|ATC|СТРОКАИЗДАТЫ|DTOC|ЛЕВСИМВ|LEFT|ДЛИНА|LEN|СТРОЧНЫЕ|LOWER|СЖАТЬПРОБЕЛЫЛЕВ|LTRIM|ДОБАВИТЬПРОБЕЛЫЛЕВ|PADL|ДОБАВИТЬПРОБЕЛЫПРАВ|PADR|ОБРАТНЫЙПОИСК|RAT|КОПИРОВАТЬ|REPLICATE|ПРАВСИМВ|RIGHT|СЖАТЬПРОБЕЛЫПРАВ|RTRIM|ПРОБЕЛЫ|SPACE|СИМВОЛПОКОДУ|CHR|КОДСИМВОЛА|ASC|СТРОКА|STR|STDA|STDE|STDF|ЗАМЕНИТЬ|STRTRAN|STRTRANC|ПОДСТРОКА|SUBSTR|СТРОКАИЗВРЕМЕНИ|TTOC|ПРОПИСНЫЕ|UPPER|ПРОЧИТАТЬСТРОКУ|STRINGREAD|ПОКРУЖЕНИЯ|ENVVAR|ПОЛУЧИТЬСЛОВО|GETWORD|ПРОПИСЬ|TRANSLATENUMBER|ПРОПИСЬРУБ|TRANSLATENUMBERRUR|ПЕРЕКОДИРОВАТЬ|TRANSLATE|СТРОКАИЗМАССИВА|ARRAYTOSTRING|МАССИВИЗСТРОКИ|STRINGTOARRAY|ЭЛЕМЕНТ|ITEM|ЗАШИФРОВАТЬТЕКСТ|ENCRYPTTEXT|РАСШИФРОВАТЬТЕКСТ|DECRYPTTEXT|ФОРМАТ|FORMAT|ЯВЛЯЕТСЯСИМВОЛОМ|ISSYMBOL|ЯВЛЯЕТСЯЦИФРОЙ|ISDIGIT|ЯВЛЯЕТСЯИДЕНТИФИКАТОРОМ|ISIDENTIFIER)(?=\\s*\\()"
 		},
 		"builtin-functions-date": {
 			"name": "support.function.date.itida",
@@ -262,19 +266,35 @@
 		},
 		"builtin-functions-context": {
 			"name": "support.function.context.itida",
-			"match": "(?i)\\b(ДОБАВИТЬКОНТЕКСТ|ADDCONTEXT|ДОБАВИТЬСТРОКИ|APPEND|КОНЕЦКОНТЕКСТА|ENDOFVIEW|КонецКонтекста|ПЕРЕЙТИ|GO|ПЕРЕЙТИВКОНЕЦ|GOBOTTOM|ПЕРЕЙТИВНАЧАЛО|GOTOP|ПерейтиВНачало|КОЛИЧЕСТВОСТРОК|RECCOUNT|УДАЛИТЬКОНТЕКСТ|REMOVECONTEXT|УдалитьКонтекст|ПРОПУСТИТЬ|Пропустить|SKIP|ВЫБРАТЬКОНТЕКСТ|SELECTCONTEXT|ВыбратьКонтекст|НОМЕРСТРОКИ|RECNO|СОЗДАТЬИНДЕКС|CREATEINDEX|Загрузить)(?=\\s*\\()"
+			"match": "(?i)\\b(ДОБАВИТЬКОНТЕКСТ|ADDCONTEXT|ДОБАВИТЬСТРОКИ|APPEND|КОНЕЦКОНТЕКСТА|ENDOFVIEW|ПЕРЕЙТИ|GO|ПЕРЕЙТИВКОНЕЦ|GOBOTTOM|ПЕРЕЙТИВНАЧАЛО|GOTOP|КОЛИЧЕСТВОСТРОК|RECCOUNT|УДАЛИТЬКОНТЕКСТ|REMOVECONTEXT|ПРОПУСТИТЬ|SKIP|ВЫБРАТЬКОНТЕКСТ|SELECTCONTEXT|НОМЕРСТРОКИ|RECNO|СОЗДАТЬИНДЕКС|CREATEINDEX|НАЙТИ|FIND|НАЙТИПОИНДЕКСУ|FINDINDEX|ПРОДОЛЖИТЬПОИСК|FINDCONTINUE|ИЗМЕНИТЬПОЛЕ|REPLACE|ЗНАЧЕНИЕПОЛЯ|FIELDVALUE|ТИПЗНАЧЕНИЯПОЛЯ|FIELDVALUETYPE|ВЫБРАТЬИНДЕКС|SELECTINDEX|ВЫГРУЗИТЬ|UPLOAD|ЗАГРУЗИТЬ|DOWNLOAD|ЗАГРУЗИТЬJSON|UPLOADJSON|ИМЯКОНТЕКСТА|CONTEXTNAME|ЗАГРУЗИТЬЗАПИСЬ|LOADRECORD|ЧИТАТЬЗАПИСЬ|GATHERRECORD)(?=\\s*\\()"
 		},
 		"builtin-functions-file": {
 			"name": "support.function.file.itida",
-			"match": "(?i)\\b(ФайлСоздать|ФайлОткрыть|ФайлЗаписать|ФайлЧтение|ФайлЗакрыть|ФайлУдалить|ФайлКопировать|ФайлПереименовать|ФайлСуществует|УникальноеИмя|СокетСоединить|СокетПередать|СокетПолучить|СокетЗакрыть)(?=\\s*\\()"
+			"match": "(?i)\\b(ФАЙЛСОЗДАТЬ|FILECREATE|ФАЙЛОТКРЫТЬ|FILEOPEN|ФАЙЛЗАПИСАТЬ|FILEWRITE|ФАЙЛПРОЧИТАТЬ|FILEREAD|ФАЙЛЗАКРЫТЬ|FILECLOSE|ФАЙЛУДАЛИТЬ|FILEDELETE|ФАЙЛПЕРЕИМЕНОВАТЬ|FILERENAME|ФАЙЛ|FILEEXISTS|ФАЙЛКОНЕЦФАЙЛА|FILEEOF|ФАЙЛУКАЗАТЕЛЬ|FILEGETPOINTER|ФАЙЛУСТАНОВИТЬУКАЗАТЕЛЬ|FILESETPOINTER|ФАЙЛРАЗМЕР|FILEGETSIZE|ФАЙЛКОЛИЧЕСТВОСТРОК|FILELINESCOUNT|ФАЙЛВЫБРАТЬ|FILESELECT|ФАЙЛУПАКОВАТЬ|FILEPACK|ФАЙЛРАСПАКОВАТЬ|FILEUNPACK|ФАЙЛСПИСОК|FILESLIST|ФАЙЛНАЙТИ|FILEFINDFIRST|ФАЙЛНАЙТИСЛЕДУЮЩИЙ|FILEFINDNEXT|ФАЙЛЗАКОНЧИТЬПОИСК|FILEFINDCLOSE|ФАЙЛЗАПИСАТЬСТРОКУ|FILEWRITESTRING|ФАЙЛЗАПИСАТЬВЖУРНАЛ|FILEWRITELOG|КАТАЛОГСОЗДАТЬ|DIRECTORYCREATE)(?=\\s*\\()"
+		},
+		"builtin-functions-network": {
+			"name": "support.function.network.itida",
+			"match": "(?i)\\b(СОКЕТСОЕДИНИТЬ|SOCKETCONNECT|СОКЕТПЕРЕДАТЬ|SOCKETSEND|СОКЕТПОЛУЧИТЬ|SOCKETRECIEVE|СОКЕТЗАКРЫТЬ|SOCKETCLOSE|ФТПСОЕДИНИТЬ|FTPCONNECT|ФТПЗАКРЫТЬ|FTPCLOSE|ФТППОЛУЧИТЬФАЙЛ|FTPGETFILE|ФТППЕРЕДАТЬФАЙЛ|FTPPUTFILE|ФТПУСТАНОВИТЬКАТАЛОГ|FTPSETCURRENTDIR|ФТПТЕКУЩИЙКАТАЛОГ|FTPGETCURRENTDIR|ФТПСОЗДАТЬКАТАЛОГ|FTPCREATEDIRECTORY|ФТПУДАЛИТЬКАТАЛОГ|FTPDELETEDIRECTORY|ФТПУДАЛИТЬФАЙЛ|FTPDELETEFILE|ФТППОЛУЧИТЬФАЙЛПОШАБЛОНУ|FTPGETFILEBYTEMPLATE|ФТПКОЛИЧЕСТВОФАЙЛОВ|FTPFILESCOUNT|ФТПОШИБКА|FTPERROR|ФТПТЕКСТОШИБКИ|FTPERRORTEXT|HTTPСОЕДИНИТЬ|HTTPCONNECT|HTTPЗАКРЫТЬ|HTTPCLOSE|HTTPПОЛУЧИТЬ|HTTPGET|HTTPПОСЛАТЬ|HTTPPOST|HTTPРАЗМЕСТИТЬ|HTTPPUT|HTTPУДАЛИТЬ|HTTPDELETE|HTTPПРОЧЕЕ|HTTPOTHER|HTTPЗАГОЛОВКИ|HTTPHEADERS|HTTPВРЕМЯОЖИДАНИЯ|HTTPTIMEOUT|COMОТКРЫТЬ|COMOPEN|COMЗАКРЫТЬ|COMCLOSE|COMПРОЧИТАТЬ|COMREAD|COMЗАПИСАТЬ|COMWRITE)(?=\\s*\\()"
+		},
+		"builtin-functions-table": {
+			"name": "support.function.table.itida",
+			"match": "(?i)\\b(ТАБЛИЦАОТКРЫТЬ|TABLEOPEN|ТАБЛИЦАЗАКРЫТЬ|TABLECLOSE|ТАБЛИЦАСОЗДАТЬ|TABLECREATE|ТАБЛИЦАУДАЛИТЬФАЙЛ|TABLEDROP|ТАБЛИЦАПЕРЕЙТИВНАЧАЛО|TABLEGOTOP|ТАБЛИЦАПЕРЕЙТИВКОНЕЦ|TABLEGOBOTTOM|ТАБЛИЦАПРОПУСТИТЬ|TABLESKIP|ТАБЛИЦАПЕРЕЙТИ|TABLEGOTO|ТАБЛИЦАКОЛИЧЕСТВОЗАПИСЕЙ|TABLERECCOUNT|ТАБЛИЦАНОМЕРЗАПИСИ|TABLERECNO|ТАБЛИЦАКОНЕЦФАЙЛА|TABLEEOF|ТАБЛИЦАЗНАЧЕНИЕПОЛЯ|TABLEFIELD|ТАБЛИЦАИЗМЕНИТЬПОЛЕ|TABLEREPLACE|ТАБЛИЦАДОБАВИТЬЗАПИСЬ|TABLEAPPEND|ТАБЛИЦАУДАЛИТЬЗАПИСЬ|TABLEDELETE|ТАБЛИЦАОБНОВИТЬЗАПИСЬ|TABLEUPDATE|ТАБЛИЦАЧИТАТЬЗАПИСЬ|TABLELOADRECORD|ТАБЛИЦАНАЙТИ|TABLEFIND|ТАБЛИЦАНАЙТИПОИНДЕКСУ|TABLEFINDINDEX|ТАБЛИЦАПРОДОЛЖИТЬПОИСК|TABLEFINDCONTINUE|ТАБЛИЦАСОЗДАТЬИНДЕКС|TABLECREATEINDEX|ТАБЛИЦАОТКРЫТЬИНДЕКС|TABLEOPENINDEX|ТАБЛИЦАЗАКРЫТЬИНДЕКС|TABLECLOSEINDEX|ТАБЛИЦАВЫБРАТЬИНДЕКС|TABLEINDEX|ТАБЛИЦАПРИВЯЗАТЬПОЛЯ|TABLEBIND|ТАБЛИЦАЗАГРУЗИТЬ|TABLEUPLOAD)(?=\\s*\\()"
+		},
+		"builtin-functions-xml": {
+			"name": "support.function.xml.itida",
+			"match": "(?i)\\b(XMLНАЧАТЬ|XMLSTARTDOCUMENT|XMLЗАКОНЧИТЬ|XMLENDDOCUMENT|XMLНАЧАЛОТЕГА|XMLWRITEELEMENTSTART|XMLЗАВЕРШИТЬТЕГ|XMLWRITEELEMENTEND|XMLТЕКСТТЕГА|XMLWRITEELEMENTTEXT|XMLЗАПИСАТЬТЕГ|XMLWRITEELEMENT|XMLКОММЕНТАРИЙ|XMLWRITECOMMENT|XMLКОДОШИБКИ|XMLERRORCODE|XMLОЧИСТИТЬОШИБКИ|XMLCLEARERROR)(?=\\s*\\()"
+		},
+		"builtin-functions-archive": {
+			"name": "support.function.archive.itida",
+			"match": "(?i)\\b(АРХИВ|ZIP|АРХИВОТКРЫТЬ|ZIPOPEN|АРХИВЗАКРЫТЬ|ZIPCLOSE|РАРАРХИВ|RAR|РАРОТКРЫТЬ|RAROPEN|РАРЗАКРЫТЬ|RARCLOSE)(?=\\s*\\()"
 		},
 		"builtin-functions-ui": {
 			"name": "support.function.ui.itida",
-			"match": "(?i)\\b(СООБЩЕНИЕ|СистемноеСообщение|ОтправитьСообщение|ОТПРАВИТЬСООБЩЕНИЕ|COMPARAMORDER|СОЗДАТЬОБЁРТКУС|ПЕРЕМЕННАЯ)(?=\\s*\\()"
+			"match": "(?i)\\b(СООБЩЕНИЕ|MESSAGEBOX|ДОБАВИТЬСООБЩЕНИЕ|ADDMESSAGE|ИНДИКАТОР|PROGRESSBAR|СИСТЕМНОЕСООБЩЕНИЕ|SYSTEMMESSAGE|ОТПРАВИТЬСООБЩЕНИЕ|SENDMESSAGE|ПОСЛАТЬСООБЩЕНИЕ|POSTMESSAGE|ЖУРНАЛСООБЩЕНИЙ|MESSAGELOG|ФОРМА|CREATEFORM)(?=\\s*\\()"
 		},
 		"builtin-functions-other": {
 			"name": "support.function.other.itida",
-			"match": "(?i)\\b(Вычислить|EVALUATE|EVAL)(?=\\s*\\()"
+			"match": "(?i)\\b(ВЫЧИСЛИТЬ|EVALUATE|EVAL|ПЕРЕМЕННАЯ|VARIABLE|УНИКАЛЬНОЕИМЯ|UNIQUENAME|СОЗДАТЬОБЪЕКТ|CREATEOBJECT|ВЫПОЛНИТЬ|SHELLEXECUTE|ПОТОК|THREAD|ОБРАБОТАТЬСОБЫТИЯ|PROCESSEVENTS|СИСТЕМНОЕВРЕМЯ|TICKCOUNT|СФОРМИРОВАТЬ_PDF417|PDF417|МД5|MD5|ХЭШ256|SHA256|УУИД|UUID|ШИФРОВАНИЕ|CRYPTOGRAPHY|СПИСОКСЕРТИФИКАТОВ|CERTIFICATES|ОТЛАДЧИК|DEBUGGER)(?=\\s*\\()"
 		},
 		"function-call": {
 			"match": "([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)\\s*\\(",
