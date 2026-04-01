@@ -35,6 +35,18 @@ function parseParamsFromDescription(description: string): string[] {
     return match[1].split(',').map(p => p.trim()).filter(p => p.length > 0);
 }
 
+
+/** Generate JSON metadata object for a function */
+export function generateFunctionJson(name: string, params: string[], groupname: string = '', isLocal: boolean = false): object {
+    return {
+        name,
+        description: `${name}(${params.join(', ')})`,
+        note: '',
+        isLocal,
+        groupname
+    };
+}
+
 function tryReadJson(filePath: string): any | undefined {
     try {
         const content = fs.readFileSync(filePath, 'utf-8');
@@ -189,6 +201,7 @@ export class LibraryStore {
             }
             byName.push(func);
         }
+
     }
 
     private findParentLibrary(dir: string, rootPath: string): LibraryInfo | undefined {

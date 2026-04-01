@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
-import { LibraryStore, LibraryFunction } from './libraryLoader';
+import * as path from 'path';
+import * as fs from 'fs';
+import { LibraryStore, generateFunctionJson } from './libraryLoader';
 
 // ========================= LIBRARY STORE (singleton) =========================
 
@@ -699,6 +701,142 @@ export function activate(context: vscode.ExtensionContext) {
                     ? 'Айтида: путь к библиотекам не задан (itida.functionLibraryPath)'
                     : `Айтида: загружено ${libraryStore.functions.length} функций из ${libraryStore.libraries.length} библиотек`
             );
+        })
+    );
+
+    // Create library function command
+    context.subscriptions.push(
+        vscode.commands.registerCommand('itida.createLibraryFunction', async () => {
+            const libPath = vscode.workspace.getConfiguration('itida').get<string>('functionLibraryPath', '');
+            if (!libPath) {
+                vscode.window.showWarningMessage('Айтида: путь к библиотекам не задан (itida.functionLibraryPath)');
+                return;
+            }
+
+            const libs = libraryStore.libraries;
+            if (libs.length === 0) {
+                vscode.window.showWarningMessage('Айтида: библиотеки не найдены в указанном каталоге');
+                return;
+            }
+
+            // Pick library
+            const libItems = libs.map(lib => ({
+                label: lib.libalias,
+                description: lib.libname,
+                lib
+            }));
+            const picked = await vscode.window.showQuickPick(libItems, {
+                placeHolder: 'Выберите библиотеку'
+            });
+            if (!picked) { return; }
+
+            // Scan subdirectories for folder picker
+            const selectedLib = picked.lib;
+            const libDir = selectedLib.dirPath;
+            const subfolders: { label: string; description: string; dirPath: string; groupname: string }[] = [];
+
+            // Root of library (no subfolder)
+            subfolders.push({
+                label: '(корень библиотеки)',
+                description: libDir,
+                dirPath: libDir,
+                groupname: ''
+            });
+
+            function scanSubfolders(dir: string, relativeParts: string[]): void {
+                let entries: fs.Dirent[];
+                try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+                for (const entry of entries) {
+                    if (entry.isDirectory() && !entry.name.startsWith('.')) {
+                        const parts = [...relativeParts, entry.name];
+                        const fullPath = path.join(dir, entry.name);
+                        subfolders.push({
+                            label: parts.join('.'),
+                            description: fullPath,
+                            dirPath: fullPath,
+                            groupname: parts.join('.')
+                        });
+                        scanSubfolders(fullPath, parts);
+                    }
+                }
+            }
+            scanSubfolders(libDir, []);
+
+            // Pick folder (skip if no subfolders)
+            let targetDir = libDir;
+            let groupname = picked.lib.libname;
+
+            if (subfolders.length > 1) {
+                const folderPicked = await vscode.window.showQuickPick(subfolders, {
+                    placeHolder: 'Выберите папку (группу) для функции'
+                });
+                if (!folderPicked) { return; }
+                targetDir = folderPicked.dirPath;
+                groupname = folderPicked.groupname;
+            }
+
+            // Enter function name
+            const funcName = await vscode.window.showInputBox({
+                prompt: 'Имя новой функции',
+                placeHolder: 'МояФункция',
+                validateInput: (v) => {
+                    if (!v.trim()) { return 'Введите имя функции'; }
+                    if (!/^[а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*$/.test(v)) {
+                        return 'Недопустимые символы в имени функции';
+                    }
+                    return undefined;
+                }
+            });
+            if (!funcName) { return; }
+
+            // Enter params (optional)
+            const paramsInput = await vscode.window.showInputBox({
+                prompt: 'Параметры через запятую (можно оставить пустым)',
+                placeHolder: 'Парам1, Парам2, Парам3'
+            });
+            if (paramsInput === undefined) { return; }
+
+            const params = paramsInput.trim()
+                ? paramsInput.split(',').map(p => p.trim()).filter(p => p.length > 0)
+                : [];
+
+            // Ask isLocal
+            const localPick = await vscode.window.showQuickPick(
+                [
+                    { label: 'Нет', description: 'Публичная функция', isLocal: false },
+                    { label: 'Да', description: 'Локальная функция', isLocal: true }
+                ],
+                { placeHolder: 'Локальная функция?' }
+            );
+            if (!localPick) { return; }
+
+            const txtPath = path.join(targetDir, `${funcName}.txt`);
+            const jsonPath = path.join(targetDir, `${funcName}.json`);
+
+            if (fs.existsSync(txtPath) || fs.existsSync(jsonPath)) {
+                vscode.window.showWarningMessage(`Функция ${funcName} уже существует в этой папке`);
+                return;
+            }
+
+            // Create empty .txt
+            // Create .json with metadata
+            const jsonData = generateFunctionJson(funcName, params, groupname, localPick.isLocal);
+
+            try {
+                fs.writeFileSync(txtPath, '', 'utf-8');
+                fs.writeFileSync(jsonPath, JSON.stringify(jsonData, null, 4), 'utf-8');
+            } catch (err: any) {
+                vscode.window.showErrorMessage(`Ошибка создания файлов: ${err.message}`);
+                return;
+            }
+
+            loadLibraries();
+
+            // Open .txt file in editor
+            const doc = await vscode.workspace.openTextDocument(txtPath);
+            await vscode.window.showTextDocument(doc);
+
+            vscode.window.setStatusBarMessage(`Айтида: функция ${selectedLib.libalias}.${funcName} создана`, 5000);
         })
     );
 
