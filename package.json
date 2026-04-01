@@ -2,7 +2,7 @@
   "name": "itida-language",
   "displayName": "Айтида Language Support",
   "description": "Syntax highlighting and IntelliSense for Itida language",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "itida",
   "license": "MIT",
   "repository": {
