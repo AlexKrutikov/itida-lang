@@ -2,7 +2,7 @@
   "name": "itida-language",
   "displayName": "Айтида Language Support",
   "description": "Syntax highlighting and IntelliSense for Itida language",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "itida",
   "license": "MIT",
   "repository": {
@@ -50,6 +50,22 @@
         "path": "./snippets/itida.json"
       }
     ],
+    "commands": [
+      {
+        "command": "itida.reloadLibraries",
+        "title": "Айтида: Перезагрузить библиотеки функций"
+      }
+    ],
+    "configuration": {
+      "title": "Айтида Language",
+      "properties": {
+        "itida.functionLibraryPath": {
+          "type": "string",
+          "default": "",
+          "description": "Путь к каталогу библиотек функций (справочник функций Айтиды, выгруженный в файлы)"
+        }
+      }
+    },
     "configurationDefaults": {
       "editor.tokenColorCustomizations": {
         "textMateRules": [

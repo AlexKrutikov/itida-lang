@@ -1,4 +1,22 @@
 import * as vscode from 'vscode';
+import { LibraryStore, LibraryFunction } from './libraryLoader';
+
+// ========================= LIBRARY STORE (singleton) =========================
+
+const libraryStore = new LibraryStore();
+
+function loadLibraries(): void {
+    const config = vscode.workspace.getConfiguration('itida');
+    const libPath = config.get<string>('functionLibraryPath', '');
+    if (libPath) {
+        const count = libraryStore.load(libPath);
+        if (count > 0) {
+            vscode.window.setStatusBarMessage(`Айтида: загружено ${count} библиотечных функций из ${libraryStore.libraries.length} библиотек`, 5000);
+        }
+    } else {
+        libraryStore.clear();
+    }
+}
 
 // ========================= DATA =========================
 
@@ -131,9 +149,39 @@ const BUILTIN_FUNCTIONS: BuiltinFunctionInfo[] = [
 // ========================= PROVIDERS =========================
 
 class ItidaCompletionProvider implements vscode.CompletionItemProvider {
-    provideCompletionItems(document: vscode.TextDocument): vscode.CompletionItem[] {
+    provideCompletionItems(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] {
         const items: vscode.CompletionItem[] = [];
 
+        // Check if we're after "Alias." — offer library functions
+        const lineText = document.lineAt(position.line).text.substring(0, position.character);
+        const dotMatch = lineText.match(/([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)\.\s*([а-яА-ЯёЁa-zA-Z0-9_]*)$/);
+
+        if (dotMatch) {
+            const alias = dotMatch[1];
+            const libFunctions = libraryStore.getFunctionsByAlias(alias);
+            if (libFunctions.length > 0) {
+                for (const fn of libFunctions) {
+                    const item = new vscode.CompletionItem(fn.name, vscode.CompletionItemKind.Function);
+                    item.detail = `${fn.library.libalias} — ${fn.groupname}`;
+                    const doc = new vscode.MarkdownString();
+                    doc.appendCodeblock(fn.signature, 'itida');
+                    if (fn.note) {
+                        doc.appendMarkdown('\n\n' + fn.note.replace(/\r\n/g, '\n'));
+                    }
+                    item.documentation = doc;
+                    item.insertText = new vscode.SnippetString(
+                        fn.params.length > 0 ? `${fn.name}( \${1} )` : `${fn.name}()`
+                    );
+                    if (fn.isLocal) {
+                        item.detail += ' (локальная)';
+                    }
+                    items.push(item);
+                }
+                return items;
+            }
+        }
+
+        // Standard completions: keywords
         for (const kw of KEYWORDS) {
             const item = new vscode.CompletionItem(kw.label, kw.kind);
             item.detail = kw.detail;
@@ -141,15 +189,14 @@ class ItidaCompletionProvider implements vscode.CompletionItemProvider {
             items.push(item);
         }
 
+        // Built-in functions
         for (const fn of BUILTIN_FUNCTIONS) {
-            // English name
             const item = new vscode.CompletionItem(fn.label, vscode.CompletionItemKind.Function);
             item.detail = fn.detail + (fn.labelAlt ? ` (${fn.labelAlt})` : '');
             item.documentation = new vscode.MarkdownString(`${fn.documentation}\n\n\`${fn.signature}\``);
             item.insertText = new vscode.SnippetString(fn.params.length > 0 ? `${fn.label}( \${1} )` : `${fn.label}( )`);
             items.push(item);
 
-            // Russian name
             if (fn.labelAlt) {
                 const itemAlt = new vscode.CompletionItem(fn.labelAlt, vscode.CompletionItemKind.Function);
                 itemAlt.detail = fn.detail + ` (${fn.label})`;
@@ -159,7 +206,20 @@ class ItidaCompletionProvider implements vscode.CompletionItemProvider {
             }
         }
 
-        // Document-defined functions and variables
+        // Library aliases as completions (so user can type alias then ".")
+        for (const lib of libraryStore.libraries) {
+            const item = new vscode.CompletionItem(lib.libalias, vscode.CompletionItemKind.Module);
+            item.detail = `Библиотека: ${lib.libname}`;
+            item.documentation = new vscode.MarkdownString(
+                `Библиотека функций **${lib.libname}**\n\nАлиас: \`${lib.libalias}\`\n\n` +
+                (lib.libsystem ? 'Системная библиотека' : 'Пользовательская библиотека')
+            );
+            // Trigger suggest after dot
+            item.command = { command: 'editor.action.triggerSuggest', title: '' };
+            items.push(item);
+        }
+
+        // Document-defined functions
         const text = document.getText();
         const seen = new Set<string>();
 
@@ -197,9 +257,46 @@ class ItidaHoverProvider implements vscode.HoverProvider {
     }
 
     provideHover(document: vscode.TextDocument, position: vscode.Position): vscode.Hover | undefined {
+        // Check for library function pattern: Alias.FuncName
+        const libRange = document.getWordRangeAtPosition(position, /[а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*\.[а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*/);
+        if (libRange) {
+            const fullText = document.getText(libRange);
+            const dotIdx = fullText.indexOf('.');
+            const alias = fullText.substring(0, dotIdx);
+            const funcName = fullText.substring(dotIdx + 1);
+            const libFunc = libraryStore.getFunctionByFullName(alias, funcName);
+            if (libFunc) {
+                const md = new vscode.MarkdownString();
+                md.appendCodeblock(libFunc.signature, 'itida');
+                md.appendMarkdown(`\n\n**${libFunc.library.libname}** — ${libFunc.groupname}`);
+                if (libFunc.isLocal) { md.appendMarkdown(' *(локальная)*'); }
+                if (libFunc.note) {
+                    md.appendMarkdown('\n\n' + libFunc.note.replace(/\r\n/g, '\n'));
+                }
+                return new vscode.Hover(md, libRange);
+            }
+        }
+
+        // Check for library alias hover
         const wordRange = document.getWordRangeAtPosition(position, /[а-яА-ЯёЁa-zA-Z_@][а-яА-ЯёЁa-zA-Z0-9_]*/);
         if (!wordRange) { return undefined; }
         const word = document.getText(wordRange);
+
+        // Check if it's a library alias (followed by a dot)
+        const charAfter = position.line < document.lineCount
+            ? document.lineAt(position.line).text[wordRange.end.character] : '';
+        if (charAfter === '.') {
+            const lib = libraryStore.getLibraryByAlias(word);
+            if (lib) {
+                const funcCount = libraryStore.getFunctionsByAlias(word).length;
+                const md = new vscode.MarkdownString();
+                md.appendMarkdown(`**Библиотека: ${lib.libname}**\n\nАлиас: \`${lib.libalias}\`\n\n`);
+                md.appendMarkdown(lib.libsystem ? 'Системная библиотека' : 'Пользовательская библиотека');
+                md.appendMarkdown(`\n\nФункций: ${funcCount}`);
+                return new vscode.Hover(md, wordRange);
+            }
+        }
+
         const info = this.hoverMap.get(word.toLowerCase());
         if (!info) { return undefined; }
 
@@ -232,6 +329,23 @@ class ItidaSignatureHelpProvider implements vscode.SignatureHelpProvider {
         if (funcEnd < 0) { return undefined; }
 
         const beforeParen = lineText.substring(0, funcEnd).trimEnd();
+
+        // Try library function pattern: Alias.FuncName
+        const libNameMatch = beforeParen.match(/([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)\.([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)$/);
+        if (libNameMatch) {
+            const libFunc = libraryStore.getFunctionByFullName(libNameMatch[1], libNameMatch[2]);
+            if (libFunc && libFunc.params.length > 0) {
+                const sig = new vscode.SignatureInformation(libFunc.signature, libFunc.note.replace(/\r\n/g, '\n'));
+                sig.parameters = libFunc.params.map(p => new vscode.ParameterInformation(p));
+                const help = new vscode.SignatureHelp();
+                help.signatures = [sig];
+                help.activeSignature = 0;
+                help.activeParameter = Math.min(paramIndex, libFunc.params.length - 1);
+                return help;
+            }
+        }
+
+        // Try built-in function
         const nameMatch = beforeParen.match(/([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)$/);
         if (!nameMatch) { return undefined; }
 
@@ -299,6 +413,60 @@ class ItidaDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 export function activate(context: vscode.ExtensionContext) {
     const selector: vscode.DocumentSelector = { language: 'itida', scheme: 'file' };
 
+    // Load libraries from configured path
+    loadLibraries();
+
+    // Re-load when configuration changes
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeConfiguration(e => {
+            if (e.affectsConfiguration('itida.functionLibraryPath')) {
+                loadLibraries();
+            }
+        })
+    );
+
+    // Watch for changes in the library directory
+    let libraryWatcher: vscode.FileSystemWatcher | undefined;
+
+    function setupLibraryWatcher(): void {
+        if (libraryWatcher) {
+            libraryWatcher.dispose();
+            libraryWatcher = undefined;
+        }
+        const libPath = vscode.workspace.getConfiguration('itida').get<string>('functionLibraryPath', '');
+        if (libPath) {
+            const pattern = new vscode.RelativePattern(vscode.Uri.file(libPath), '**/*.json');
+            libraryWatcher = vscode.workspace.createFileSystemWatcher(pattern);
+            const reload = () => loadLibraries();
+            libraryWatcher.onDidChange(reload);
+            libraryWatcher.onDidCreate(reload);
+            libraryWatcher.onDidDelete(reload);
+            context.subscriptions.push(libraryWatcher);
+        }
+    }
+
+    setupLibraryWatcher();
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeConfiguration(e => {
+            if (e.affectsConfiguration('itida.functionLibraryPath')) {
+                setupLibraryWatcher();
+            }
+        })
+    );
+
+    // Reload command
+    context.subscriptions.push(
+        vscode.commands.registerCommand('itida.reloadLibraries', () => {
+            loadLibraries();
+            vscode.window.showInformationMessage(
+                libraryStore.isEmpty
+                    ? 'Айтида: путь к библиотекам не задан (itida.functionLibraryPath)'
+                    : `Айтида: загружено ${libraryStore.functions.length} функций из ${libraryStore.libraries.length} библиотек`
+            );
+        })
+    );
+
+    // Register providers
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(selector, new ItidaCompletionProvider(), '.', '('),
         vscode.languages.registerHoverProvider(selector, new ItidaHoverProvider()),
