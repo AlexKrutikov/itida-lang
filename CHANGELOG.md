@@ -1,9 +1,21 @@
-# Change Log
+# Changelog
 
-All notable changes to the "itida-lang" extension will be documented in this file.
+All notable changes to the "Itida Lang" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [0.1.1] - 2026-04-01
 
-## [Unreleased]
+### Added
 
-- Initial release
+- Иконка расширения
+
+## [0.1.0] - 2026-04-01
+
+### Added
+
+- Подсветка синтаксиса для языка вычислителя Айтида (файлы `.itd`)
+- Подсветка SQL-блоков (`__SQL {}`, `SQLAGGREGATE {}`) с отдельной цветовой схемой
+- Различение понятий (`@Понятие`) и SQL-переменных (`@переменная`) по цвету
+- Подсветка шаблонных вставок `[[ переменная ]]` внутри SQL-блоков
+- Цветовая схема для светлых и тёмных тем, приближенная к оригинальному редактору Айтида
+- Сниппеты для часто используемых конструкций
+- Лицензия MIT
