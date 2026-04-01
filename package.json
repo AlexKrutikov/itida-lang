@@ -9,6 +9,7 @@
     "type": "git",
     "url": "https://github.com/AlexKrutikov/itida-lang.git"
   },
+  "icon": "assets/itida-icon-light.png",
   "engines": {
     "vscode": "^1.82.0"
   },
