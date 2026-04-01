@@ -10,6 +10,7 @@
 		{ "include": "#float-number" },
 		{ "include": "#integer-number" },
 		{ "include": "#system-constants" },
+		{ "include": "#sql-block" },
 		{ "include": "#concepts" },
 		{ "include": "#function-definition" },
 		{ "include": "#control-keywords" },
@@ -97,6 +98,55 @@
 			"name": "variable.other.concept.itida",
 			"match": "@[а-яА-ЯёЁa-zA-Z_@][а-яА-ЯёЁa-zA-Z0-9_]*"
 		},
+		"sql-variable": {
+			"name": "variable.other.readwrite.sql.itida",
+			"match": "@{1,2}[а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*"
+		},
+		"sql-block": {
+			"patterns": [
+				{
+					"name": "meta.block.sql.itida",
+					"begin": "(?i)\\b(_*SQL)\\s*\\(",
+					"end": "\\}",
+					"beginCaptures": {
+						"1": { "name": "storage.type.special.itida" }
+					},
+					"patterns": [
+						{ "include": "#sql-block-content" }
+					]
+				},
+				{
+					"name": "meta.block.sqlaggregate.itida",
+					"begin": "(?i)\\b(SQLAGGREGATE)\\s*\\(",
+					"end": "\\}",
+					"beginCaptures": {
+						"1": { "name": "storage.type.special.itida" }
+					},
+					"patterns": [
+						{ "include": "#sql-block-content" }
+					]
+				}
+			]
+		},
+		"sql-block-content": {
+			"patterns": [
+				{ "include": "#sql-variable" },
+				{ "include": "#comments" },
+				{ "include": "#strings" },
+				{ "include": "#date-literal" },
+				{ "include": "#hex-number" },
+				{ "include": "#float-number" },
+				{ "include": "#integer-number" },
+				{ "include": "#system-constants" },
+				{ "include": "#sql-keywords" },
+				{ "include": "#sql-types" },
+				{ "include": "#boolean-constants" },
+				{ "include": "#logical-operators" },
+				{ "include": "#compound-operators" },
+				{ "include": "#operators" },
+				{ "include": "#punctuation" }
+			]
+		},
 		"function-definition": {
 			"match": "(?i)\\b(FUNCTION|ФУНКЦИЯ)(?:\\s+(LOCAL|ЛОКАЛЬНАЯ))?\\s+([а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*)\\s*\\(",
 			"captures": {
@@ -157,7 +207,11 @@
 			"patterns": [
 				{
 					"name": "keyword.other.DML.sql.itida",
-					"match": "(?i)\\b(SELECT|FROM|WHERE|INSERT|INTO|UPDATE|DELETE|SET|VALUES|OUTPUT|TOP|DISTINCT|HAVING|UNION|ALL|EXISTS|BETWEEN|LIKE|IN|AS|ON|CASE|WHEN|THEN|ELSE|END|CAST|CONVERT|COALESCE|ISNULL|NULLIF|NULL)\\b"
+					"match": "(?i)\\b(SELECT|FROM|WHERE|INSERT|INTO|UPDATE|DELETE|SET|VALUES|OUTPUT|TOP|DISTINCT|HAVING|UNION|ALL|EXISTS|BETWEEN|LIKE|IN|AS|ON|CASE|WHEN|THEN|ELSE|END|NULL)\\b"
+				},
+				{
+					"name": "support.function.sql.itida",
+					"match": "(?i)\\b(CAST|CONVERT|COALESCE|ISNULL|NULLIF|DATEDIFF|DATEADD|DATEPART|DATENAME|GETDATE|GETUTCDATE|LEN|CHARINDEX|SUBSTRING|REPLACE|UPPER|LOWER|LTRIM|RTRIM|TRIM|STUFF|REVERSE|CONCAT|FORMAT|ROW_NUMBER|RANK|DENSE_RANK|COUNT|SUM|AVG|MIN|MAX|ABS|CEILING|FLOOR|ROUND|SIGN|POWER|SQRT|NEWID|SCOPE_IDENTITY|@@IDENTITY|@@ROWCOUNT|@@ERROR)\\b"
 				},
 				{
 					"name": "keyword.other.DDL.sql.itida",
@@ -211,7 +265,7 @@
 		},
 		"builtin-functions-ui": {
 			"name": "support.function.ui.itida",
-			"match": "(?i)\\b(Сообщить|СистемноеСообщение|ОтправитьСообщение|ОТПРАВИТЬСООБЩЕНИЕ)(?=\\s*\\()"
+			"match": "(?i)\\b(СООБЩЕНИЕ|СистемноеСообщение|ОтправитьСообщение|ОТПРАВИТЬСООБЩЕНИЕ|COMPARAMORDER|СОЗДАТЬОБЁРТКУС|ПЕРЕМЕННАЯ)(?=\\s*\\()"
 		},
 		"builtin-functions-other": {
 			"name": "support.function.other.itida",

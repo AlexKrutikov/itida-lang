@@ -43,7 +43,289 @@
         "language": "itida",
         "path": "./snippets/itida.json"
       }
-    ]
+    ],
+    "configurationDefaults": {
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": "comment.line.double-slash.itida",
+            "settings": { "foreground": "#008000" }
+          },
+          {
+            "scope": "comment.block.itida",
+            "settings": { "foreground": "#008000" }
+          },
+          {
+            "scope": "keyword.control.itida",
+            "settings": { "foreground": "#0000FF", "fontStyle": "bold" }
+          },
+          {
+            "scope": "keyword.control.block.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "storage.type.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "storage.type.function.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "storage.modifier.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "storage.type.special.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "keyword.other.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "keyword.operator.logical.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "constant.language.boolean.true.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "constant.language.boolean.false.itida",
+            "settings": { "foreground": "#0000FF" }
+          },
+          {
+            "scope": "string.quoted.double.itida",
+            "settings": { "foreground": "#A31515" }
+          },
+          {
+            "scope": "string.quoted.single.itida",
+            "settings": { "foreground": "#A31515" }
+          },
+          {
+            "scope": "keyword.other.DML.sql.itida",
+            "settings": { "foreground": "#EC48EC", "fontStyle": "bold" }
+          },
+          {
+            "scope": "keyword.other.DDL.sql.itida",
+            "settings": { "foreground": "#4941F3", "fontStyle": "bold" }
+          },
+          {
+            "scope": "keyword.other.sql.itida",
+            "settings": { "foreground": "#800080" }
+          },
+          {
+            "scope": "keyword.other.sql.cursor.itida",
+            "settings": { "foreground": "#4941F3", "fontStyle": "bold" }
+          },
+          {
+            "scope": "keyword.control.sql.itida",
+            "settings": { "foreground": "#800080" }
+          },
+          {
+            "scope": "storage.type.sql.itida",
+            "settings": { "foreground": "#008080" }
+          },
+          {
+            "scope": "support.function.sql.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "variable.other.concept.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "variable.other.readwrite.sql.itida",
+            "settings": { "foreground": "#008080" }
+          },
+          {
+            "scope": "constant.other.system.itida",
+            "settings": { "foreground": "#000000" }
+          },
+          {
+            "scope": "constant.other.date.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.string.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.date.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.math.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.logic.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.data.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.context.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.file.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.ui.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          },
+          {
+            "scope": "support.function.other.itida",
+            "settings": { "foreground": "#800080", "fontStyle": "bold" }
+          }
+        ],
+        "[*Dark*]": {
+          "textMateRules": [
+            {
+              "scope": "comment.line.double-slash.itida",
+              "settings": { "foreground": "#57A64A" }
+            },
+            {
+              "scope": "comment.block.itida",
+              "settings": { "foreground": "#57A64A" }
+            },
+            {
+              "scope": "keyword.control.itida",
+              "settings": { "foreground": "#569CD6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "keyword.control.block.itida",
+              "settings": { "foreground": "#569CD6" }
+            },
+            {
+              "scope": "storage.type.itida",
+              "settings": { "foreground": "#569CD6" }
+            },
+            {
+              "scope": "storage.type.function.itida",
+              "settings": { "foreground": "#569CD6" }
+            },
+            {
+              "scope": "storage.modifier.itida",
+              "settings": { "foreground": "#569CD6" }
+            },
+            {
+              "scope": "storage.type.special.itida",
+              "settings": { "foreground": "#569CD6" }
+            },
+            {
+              "scope": "keyword.other.itida",
+              "settings": { "foreground": "#569CD6" }
+            },
+            {
+              "scope": "keyword.operator.logical.itida",
+              "settings": { "foreground": "#569CD6" }
+            },
+            {
+              "scope": "constant.language.boolean.true.itida",
+              "settings": { "foreground": "#569CD6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "constant.language.boolean.false.itida",
+              "settings": { "foreground": "#569CD6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "string.quoted.double.itida",
+              "settings": { "foreground": "#D69D85" }
+            },
+            {
+              "scope": "string.quoted.single.itida",
+              "settings": { "foreground": "#D69D85" }
+            },
+            {
+              "scope": "keyword.other.DML.sql.itida",
+              "settings": { "foreground": "#C586C0" }
+            },
+            {
+              "scope": "keyword.other.DDL.sql.itida",
+              "settings": { "foreground": "#C586C0" }
+            },
+            {
+              "scope": "keyword.other.sql.itida",
+              "settings": { "foreground": "#C586C0" }
+            },
+            {
+              "scope": "keyword.other.sql.cursor.itida",
+              "settings": { "foreground": "#C586C0" }
+            },
+            {
+              "scope": "keyword.control.sql.itida",
+              "settings": { "foreground": "#C586C0" }
+            },
+            {
+              "scope": "storage.type.sql.itida",
+              "settings": { "foreground": "#00CED1" }
+            },
+            {
+              "scope": "support.function.sql.itida",
+              "settings": { "foreground": "#D7DCAA", "fontStyle": "bold" }
+            },
+            {
+              "scope": "variable.other.concept.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "variable.other.readwrite.sql.itida",
+              "settings": { "foreground": "#00CED1" }
+            },
+            {
+              "scope": "constant.other.system.itida",
+              "settings": { "foreground": "#D4D4D4" }
+            },
+            {
+              "scope": "constant.other.date.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.string.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.date.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.math.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.logic.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.data.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.context.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.file.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.ui.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            },
+            {
+              "scope": "support.function.other.itida",
+              "settings": { "foreground": "#D670D6", "fontStyle": "bold" }
+            }
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
