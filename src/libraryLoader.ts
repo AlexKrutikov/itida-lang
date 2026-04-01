@@ -23,6 +23,8 @@ export interface LibraryFunction {
     params: string[];
     /** Signature: ALIAS.Name(params) */
     signature: string;
+    /** Path to the .txt source file (if exists) */
+    sourceFile?: string;
 }
 
 // ========================= PARSING =========================
@@ -150,6 +152,11 @@ export class LibraryStore {
             const params = parseParamsFromDescription(funcData.description || '');
             const signature = `${library.libalias}.${funcData.name}(${params.join(', ')})`;
 
+            // Check for corresponding .txt source file
+            const baseName = entry.name.replace(/\.json$/, '');
+            const txtPath = path.join(dir, baseName + '.txt');
+            const sourceFile = fs.existsSync(txtPath) ? txtPath : undefined;
+
             const func: LibraryFunction = {
                 name: funcData.name,
                 description: funcData.description || '',
@@ -159,6 +166,7 @@ export class LibraryStore {
                 library,
                 params,
                 signature,
+                sourceFile,
             };
 
             this._functions.push(func);

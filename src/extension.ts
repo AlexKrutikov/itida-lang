@@ -408,6 +408,41 @@ class ItidaDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
     }
 }
 
+class ItidaDefinitionProvider implements vscode.DefinitionProvider {
+    provideDefinition(document: vscode.TextDocument, position: vscode.Position): vscode.Definition | undefined {
+        // 1. Library function: Alias.FuncName → .txt source file
+        const libRange = document.getWordRangeAtPosition(position, /[а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*\.[а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*/);
+        if (libRange) {
+            const fullText = document.getText(libRange);
+            const dotIdx = fullText.indexOf('.');
+            const alias = fullText.substring(0, dotIdx);
+            const funcName = fullText.substring(dotIdx + 1);
+            const libFunc = libraryStore.getFunctionByFullName(alias, funcName);
+            if (libFunc?.sourceFile) {
+                return new vscode.Location(vscode.Uri.file(libFunc.sourceFile), new vscode.Position(0, 0));
+            }
+        }
+
+        // 2. Document-defined function: jump to FUNCTION/ФУНКЦИЯ declaration
+        const wordRange = document.getWordRangeAtPosition(position, /[а-яА-ЯёЁa-zA-Z_][а-яА-ЯёЁa-zA-Z0-9_]*/);
+        if (!wordRange) { return undefined; }
+        const word = document.getText(wordRange);
+
+        const text = document.getText();
+        const funcPattern = new RegExp(
+            `(?:FUNCTION|ФУНКЦИЯ)\\s+(?:LOCAL\\s+|ЛОКАЛЬНАЯ\\s+)?${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\(`,
+            'i'
+        );
+        const match = funcPattern.exec(text);
+        if (match) {
+            const pos = document.positionAt(match.index);
+            return new vscode.Location(document.uri, pos);
+        }
+
+        return undefined;
+    }
+}
+
 // ========================= ACTIVATION =========================
 
 export function activate(context: vscode.ExtensionContext) {
@@ -472,6 +507,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.languages.registerHoverProvider(selector, new ItidaHoverProvider()),
         vscode.languages.registerSignatureHelpProvider(selector, new ItidaSignatureHelpProvider(), '(', ','),
         vscode.languages.registerDocumentSymbolProvider(selector, new ItidaDocumentSymbolProvider()),
+        vscode.languages.registerDefinitionProvider(selector, new ItidaDefinitionProvider()),
     );
 }
 
