@@ -1,8 +1,14 @@
 .vscode/**
 .vscode-test/**
+.claude/**
 src/**
+docs/**
+img/**
+examples/**
+node_modules/**
 .gitignore
 .gitattributes
 vsc-extension-quickstart.md
 tsconfig.json
-node_modules/**
+*.vsix
+**/*.ts

@@ -1,65 +1,52 @@
-# itida-lang README
+# Itida Lang
 
-This is the README for your extension "itida-lang". After writing up a brief description, we recommend including the following sections.
+Поддержка языка вычислителя Айтида для Visual Studio Code.
 
-## Features
+## Возможности
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Подсветка синтаксиса для файлов `.itd`
+- Подсветка SQL-блоков (`__SQL {}`, `SQLAGGREGATE {}`) с отдельной цветовой схемой
+- Различение понятий (`@Понятие`) и SQL-переменных (`@переменная`) по цвету
+- Подсветка шаблонных вставок `[[ переменная ]]` внутри SQL-блоков
+- Цветовая схема, приближенная к оригинальному редактору Айтида
+- Поддержка светлых и тёмных тем
+- Сниппеты для часто используемых конструкций
 
-For example if there is an image subfolder under your extension project workspace:
+## Установка
 
-\!\[feature X\]\(images/feature-x.png\)
+Найдите расширение **Itida Lang** в VS Code Marketplace или установите из `.vsix`:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+```bash
+code --install-extension itida-lang-0.0.1.vsix
+```
 
-## Requirements
+## Ассоциация файлов
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Расширение автоматически активируется для файлов `.itd`.
 
-## Extension Settings
+Чтобы открывать `.txt` файлы как Itida в конкретном проекте, добавьте в `.vscode/settings.json`:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+```json
+{
+  "files.associations": {
+    "*.txt": "itida"
+  }
+}
+```
 
-For example:
+## Подсветка синтаксиса
 
-This extension contributes the following settings:
+Расширение подсвечивает:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- **Ключевые слова** — `ЕСЛИ`, `ИНАЧЕ`, `ЦИКЛ`, `ВОЗВРАТ` и др.
+- **Типы данных** — `ЧИСЛО`, `СТРОКА`, `ДАТА`, `ДА`, `НЕТ`
+- **Встроенные функции** — `СООБЩЕНИЕ`, `ПЕРЕМЕННАЯ`, `СОЗДАТЬОБЁРТКУС` и др.
+- **Понятия** — `@ИмяПонятия`
+- **Системные константы** — `_ИмяКонстанты`
+- **SQL-блоки** — полная подсветка SQL-синтаксиса внутри `__SQL {}` и `SQLAGGREGATE {}`
+- **Комментарии** — однострочные `//` и блочные `/* */`
+- **Строки и даты** — `"строка"`, `'символ'`, `{01.01.2026}`
 
-## Known Issues
+## Лицензия
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+[MIT](LICENSE)
