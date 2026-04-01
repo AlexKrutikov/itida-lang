@@ -128,8 +128,13 @@
 				}
 			]
 		},
+		"sql-template-variable": {
+			"name": "variable.other.template.itida",
+			"match": "\\[\\[[^\\]]*\\]\\]"
+		},
 		"sql-block-content": {
 			"patterns": [
+				{ "include": "#sql-template-variable" },
 				{ "include": "#sql-variable" },
 				{ "include": "#comments" },
 				{ "include": "#strings" },

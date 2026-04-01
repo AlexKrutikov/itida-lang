@@ -140,6 +140,10 @@
             "settings": { "foreground": "#008080" }
           },
           {
+            "scope": "variable.other.template.itida",
+            "settings": { "foreground": "#B22222", "fontStyle": "italic" }
+          },
+          {
             "scope": "constant.other.system.itida",
             "settings": { "foreground": "#000000" }
           },
@@ -277,6 +281,10 @@
             {
               "scope": "variable.other.readwrite.sql.itida",
               "settings": { "foreground": "#00CED1" }
+            },
+            {
+              "scope": "variable.other.template.itida",
+              "settings": { "foreground": "#F4A460", "fontStyle": "italic" }
             },
             {
               "scope": "constant.other.system.itida",
