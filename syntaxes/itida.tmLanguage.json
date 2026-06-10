@@ -254,7 +254,7 @@
 		},
 		"builtin-functions-math": {
 			"name": "support.function.math.itida",
-			"match": "(?i)\\b(АБСОЛЮТНОЕЗНАЧЕНИЕ|ABS|ЭЛЕМЕНТОВВМАССИВЕ|ACOUNT|ЦЕЛОЕ|INT|ОКРУГЛИТЬ|ROUND|ЗНАК|SIGN|СЛУЧАЙНОЕЧИСЛО|RAND|VAL|МАКС|MAX|МИН|MIN)(?=\\s*\\()"
+			"match": "(?i)\\b(АБСОЛЮТНОЕЗНАЧЕНИЕ|ABS|ЭЛЕМЕНТОВВМАССИВЕ|ACOUNT|ОЧИСТИТЬМАССИВ|CLEARARRAY|ЦЕЛОЕ|INT|ОКРУГЛИТЬ|ROUND|ЗНАК|SIGN|СЛУЧАЙНОЕЧИСЛО|RAND|VAL|МАКС|MAX|МИН|MIN)(?=\\s*\\()"
 		},
 		"builtin-functions-logic": {
 			"name": "support.function.logic.itida",

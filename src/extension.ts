@@ -181,6 +181,7 @@ const BUILTIN_FUNCTIONS: BuiltinFunctionInfo[] = [
 
     // Числа (недостающие)
     { label: 'ACOUNT', labelAlt: 'ЭЛЕМЕНТОВВМАССИВЕ', detail: 'Количество элементов', documentation: 'Возвращает количество элементов в массиве', signature: 'ACOUNT(ИмяМассива)', params: [{ label: 'ИмяМассива', documentation: 'Имя массива (строка в кавычках)' }] },
+    { label: 'CLEARARRAY', labelAlt: 'ОЧИСТИТЬМАССИВ', detail: 'Очистка массива', documentation: 'Очищает все элементы массива по имени массива', signature: 'CLEARARRAY(ИмяМассива)', params: [{ label: 'ИмяМассива', documentation: 'Имя массива (строка в кавычках)' }] },
 
     // JSON (недостающие)
     { label: 'GETVJSON', labelAlt: 'СФОРМИРОВАТЬ_VJSON', detail: 'JSON из переменных', documentation: 'Формирует JSON из списка переменных', signature: 'GETVJSON(СписокПеременных)', params: [{ label: 'СписокПеременных', documentation: 'Строка с именами переменных через пробел или запятую' }] },
