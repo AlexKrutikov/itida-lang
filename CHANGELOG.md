@@ -2,6 +2,12 @@
 
 All notable changes to the "Itida Lang" extension will be documented in this file.
 
+## [1.1.5] - 2026-06-10
+
+### Added
+
+- Встроенная функция `ОЧИСТИТЬМАССИВ` / `CLEARARRAY` — очищает все элементы массива по имени массива. Добавлена в автодополнение, подсказки, Signature Help и TextMate грамматику
+
 ## [1.1.4] - 2026-04-01
 
 ### Added
